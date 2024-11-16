@@ -67,15 +67,15 @@ Vagrant.configure("2") do |config|
     vb.memory = VM_TOTAL_MEMORY
     vb.customize ["modifyvm", :id, "--groups", ("/" + VAGRANT_CLUSTER_NAME )]
   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
+  
+  ## Configuration For Ansible from the Vagrant VM
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "ansible-playbook.yml"
+    ansible.galaxy_role_file = "ansible-requirements.yml"
+    ansible.galaxy_command = "ansible-galaxy collection install -r %{role_file}"
+  end
+  # try to tune boot timeout value
+  # config.vm.boot_timeout = 600
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end
+

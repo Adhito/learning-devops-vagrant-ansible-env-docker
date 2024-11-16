@@ -9,6 +9,7 @@ VAGRANT_CLUSTER_NAME      = "Development Container Engine Docker REST API 01"
 VM_TOTAL_CPU              = 8
 VM_TOTAL_MEMORY           = 8192
 VM_NAME                   = "DEVDOCKER-01"
+VM_IP_ADDRESS             = "192.168.1.10"
 
 
 Vagrant.configure("2") do |config|
@@ -39,13 +40,13 @@ Vagrant.configure("2") do |config|
   ## Configuration for a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
-  config.vm.network "forwarded_port", guest: 80, host: 80, host_ip: "192.168.1.10"
-  config.vm.network "forwarded_port", guest: 443, host: 443, host_ip: "192.168.1.10"
-  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "192.168.1.10"
-  config.vm.network "forwarded_port", guest: 10001, host: 10001, host_ip: "192.168.1.10"
+  config.vm.network "forwarded_port", guest: 80, host: 80, host_ip: VM_IP_ADDRESS
+  config.vm.network "forwarded_port", guest: 443, host: 443, host_ip: VM_IP_ADDRESS
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: VM_IP_ADDRESS
+  config.vm.network "forwarded_port", guest: 10001, host: 10001, host_ip: VM_IP_ADDRESS
 
   ## Configuration for a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network "private_network", ip: "192.168.1.10"
+  config.vm.network "private_network", ip: VM_IP_ADDRESS
 
   ## Configuration for Mount Volume / Share an additional folder to the guest VM. 
   # The first argument is the path on the host to the actual folder. 

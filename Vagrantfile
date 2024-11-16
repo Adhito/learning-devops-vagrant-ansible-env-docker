@@ -30,10 +30,10 @@ Vagrant.configure("2") do |config|
   # NOTE: This will enable public access to the opened port
 
   ## Configuration for forwarded port without mapping
-  config.vm.network "forwarded_port", guest: 80, host: 80
-  config.vm.network "forwarded_port", guest: 443, host: 443
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
-  config.vm.network "forwarded_port", guest: 10001, host: 10001
+  # config.vm.network "forwarded_port", guest: 80, host: 80
+  # config.vm.network "forwarded_port", guest: 443, host: 443
+  # config.vm.network "forwarded_port", guest: 8080, host: 8080
+  # config.vm.network "forwarded_port", guest: 10001, host: 10001
 
   ## Configuration for a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access

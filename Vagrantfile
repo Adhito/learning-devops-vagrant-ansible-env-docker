@@ -5,6 +5,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
 VAGRANT_BOX               = "ubuntu/jammy64"
 VAGRANT_BOX_VERSION       = "12.20240503.1"
+VAGRANT_BOX_TIMEOUT       = 600
 VAGRANT_CLUSTER_NAME      = "Development Container Engine Docker REST API 01"
 VM_TOTAL_CPU              = 8
 VM_TOTAL_MEMORY           = 8192
@@ -20,8 +21,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "ubuntu/jammy64"
-  config.vm.boot_timeout = 600
+  config.vm.box           = VAGRANT_BOX
+  config.vm.boot_timeout  = VAGRANT_BOX_TIMEOUT
 
   ## Configuration To Disable automatic box update checking
   config.vm.box_check_update = false

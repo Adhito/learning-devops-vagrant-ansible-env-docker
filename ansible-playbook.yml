@@ -89,3 +89,14 @@
         image: hello-world
         state: started
       become: yes
+
+    - name: Print output of hello-world container
+      community.docker.docker_container_info:
+        name: hello-world-container
+      register: container_info
+      # become: yes
+
+    - name: Print return information from the previous task
+      ansible.builtin.debug:
+        var: container_info
+        

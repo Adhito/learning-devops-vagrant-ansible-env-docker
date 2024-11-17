@@ -1,0 +1,11 @@
+---
+- name: Stage - Install APT, Docker GPG Keys, Docker Repository & Docker CE
+  hosts: all
+  become: true
+  vars:
+  tasks:
+      - name: Install aptitude
+        apt:
+          name: aptitude
+          state: latest
+          update_cache: true

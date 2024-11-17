@@ -51,3 +51,23 @@
         community.docker.docker_image:
           name: "{{ default_container_image }}"
           source: pull
+
+
+- name: Stage - Enable Vagrant User To Docker group
+  hosts: all
+  tasks:
+    - name: Add vagrant user to docker group
+      ansible.builtin.user:
+        name: vagrant
+        groups: docker
+        append: yes
+      become: yes
+
+    - name: Check if vagrant user is in the docker group
+      ansible.builtin.command: id -nG vagrant
+      register: group_check
+
+    - name: Ensure vagrant user is in the docker group
+      ansible.builtin.fail:
+        msg: "The vagrant user is not in the docker group. Please verify."
+      when: "'docker' not in group_check.stdout.split()"

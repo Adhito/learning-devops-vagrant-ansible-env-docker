@@ -9,7 +9,7 @@ VAGRANT_BOX_TIMEOUT       = 600
 VAGRANT_CLUSTER_NAME      = "Development Container Engine Docker REST API 01"
 VM_TOTAL_CPU              = 8
 VM_TOTAL_MEMORY           = 8192
-VM_NAME                   = "DEVDOCKER-01"
+VM_NAME                   = "DEVDOCKER-01-ENV01"
 VM_IP_ADDRESS             = "192.168.1.10"
 
 

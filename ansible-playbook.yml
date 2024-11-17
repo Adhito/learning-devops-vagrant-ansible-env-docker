@@ -81,20 +81,20 @@
       community.docker.docker_image:
         name: hello-world
         source: pull
-      become: yes
+      # become: yes
 
     - name: Docker run hello-world container
       community.docker.docker_container:
         name: hello-world-container
         image: hello-world
         state: started
-      become: yes
+      # become: yes
 
     - name: Print output of hello-world container
       community.docker.docker_container_info:
         name: hello-world-container
       register: container_info
-      become: yes
+      # become: yes
 
     - name: Print return information from the previous task
       ansible.builtin.debug:

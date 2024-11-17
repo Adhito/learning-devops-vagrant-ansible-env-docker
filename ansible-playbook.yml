@@ -71,3 +71,21 @@
       ansible.builtin.fail:
         msg: "The vagrant user is not in the docker group. Please verify."
       when: "'docker' not in group_check.stdout.split()"
+
+
+- name: Stage - Pull, run, and print output of hello-world Docker container
+  hosts: all
+  become: true
+  tasks:
+    - name: Docker pull hello-world image
+      community.docker.docker_image:
+        name: hello-world
+        source: pull
+      become: yes
+
+    - name: Docker run hello-world container
+      community.docker.docker_container:
+        name: hello-world-container
+        image: hello-world
+        state: started
+      become: yes

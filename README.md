@@ -62,3 +62,39 @@ Run the following command to check the environment status:
 ```bash
 vagrant status
 ```
+
+#### Stage 4. Access the VM
+
+To SSH into the VM, use the following command:
+
+```bash
+vagrant ssh <vm-name>
+```
+
+```powershell
+Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 5.15.0-118-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Nov 18 02:53:16 UTC 2024
+
+  System load:  1.33               Processes:               172
+  Usage of /:   30.1% of 38.70GB   Users logged in:         0
+  Memory usage: 3%                 IPv4 address for enp0s3: 10.0.2.15
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+
+vagrant@ubuntu-jammy:~$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       531Mi       6.5Gi       1.0Mi       781Mi       7.0Gi
+Swap:             0B          0B          0B
+vagrant@ubuntu-jammy:~$ docker ps
+```
+

@@ -34,3 +34,17 @@ This repository contains a Vagrant configuration to set up a development environ
 git clone https://github.com/Adhito/learning-devops-vagrant-ansible-env-docker
 cd learning-devops-vagrant-ansible-env-docker
 ```
+
+#### Stage 2. Customize Configuration (Optional)
+
+You can modify VM settings by editing the following variables in the `Vagrantfile`:
+
+| Variable                 | Description                                | Default Value         |
+|--------------------------|--------------------------------------------|-----------------------|
+| `VM_TOTAL_CPU`           | Number of CPUs allocated to the VM         | `8`                   |
+| `VM_TOTAL_MEMORY`        | RAM allocated to the VM (in MB)            | `8192`                |
+| `VM_IP_ADDRESS`          | Private network IP address                 | `192.168.1.10`        |
+| `VM_NAME`                | Name of the VM in VirtualBox               | `DEVDOCKER-01-ENVLOCAL` |
+| `VAGRANT_CLUSTER_NAME`   | Group name for the VM in VirtualBox         | `Development Container Engine Docker REST API 01` |
+
+---

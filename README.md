@@ -26,3 +26,11 @@ This repository contains a Vagrant configuration to set up a development environ
 3. **Ansible**: Required on the guest VM for provisioning.
 
 ---
+
+### Getting Started
+
+#### Stage 1. Clone the Repository
+```bash
+git clone https://github.com/Adhito/learning-devops-vagrant-ansible-env-docker
+cd learning-devops-vagrant-ansible-env-docker
+```

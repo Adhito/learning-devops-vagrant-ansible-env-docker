@@ -48,3 +48,17 @@ You can modify VM settings by editing the following variables in the `Vagrantfil
 | `VAGRANT_CLUSTER_NAME`   | Group name for the VM in VirtualBox         | `Development Container Engine Docker REST API 01` |
 
 ---
+
+#### Stage 3. Start the VM
+
+Run the following command to spin up the environment:
+
+```bash
+vagrant up
+```
+
+Run the following command to check the environment status:
+
+```bash
+vagrant status
+```

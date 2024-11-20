@@ -109,3 +109,20 @@ The VM is accessible via the following ports:
 | HTTPS              | 443        | 443       | 192.168.1.10    |
 | Custom Service 1   | 8080       | 8080      | 192.168.1.10    |
 | Custom Service 2   | 10001      | 10001     | 192.168.1.10    |
+
+#### Stage 6. Provisioning with Ansible
+
+The VM uses Ansible for provisioning. Ensure the following files are present in the repository:
+
+- **`ansible-playbook.yml`**: Main playbook for provisioning tasks.
+- **`ansible-requirements.yml`**: Contains role requirements for Galaxy.
+
+To setup the Docker Engine and other VM settings Ansible are choosen for configuring the environment. Vagrant supports two types of provisioners: the traditional [ansible], which requires a Linux-based host system, and [ansible_local], which is ideal when the host system is not Linux. When using the ansible_local provisioner, Vagrant will automatically install Ansible on the guest VM and execute the playbooks there. For more information, refer to the official documentation.
+
+To use ansible_local, the minimum configuration requires specifying a [playbook.yml] file, which Vagrant will look for in the current project directory.
+
+Provisioning runs automatically when the VM is created with `vagrant up`. To manually re-provision the VM, use:
+
+```bash
+vagrant provision
+```

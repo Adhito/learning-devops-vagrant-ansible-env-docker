@@ -98,3 +98,14 @@ Swap:             0B          0B          0B
 vagrant@ubuntu-jammy:~$ docker ps
 ```
 
+
+#### Stage 5. Networking
+
+The VM is accessible via the following ports:
+
+| Service            | Guest Port | Host Port | IP Address      |
+|---------------------|------------|-----------|-----------------|
+| HTTP               | 80         | 80        | 192.168.1.10    |
+| HTTPS              | 443        | 443       | 192.168.1.10    |
+| Custom Service 1   | 8080       | 8080      | 192.168.1.10    |
+| Custom Service 2   | 10001      | 10001     | 192.168.1.10    |

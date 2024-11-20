@@ -44,7 +44,7 @@ You can modify VM settings by editing the following variables in the `Vagrantfil
 | `VM_TOTAL_CPU`           | Number of CPUs allocated to the VM         | `8`                   |
 | `VM_TOTAL_MEMORY`        | RAM allocated to the VM (in MB)            | `8192`                |
 | `VM_IP_ADDRESS`          | Private network IP address                 | `192.168.1.10`        |
-| `VM_NAME`                | Name of the VM in VirtualBox               | `DEVDOCKER-01-ENVLOCAL` |
+| `VM_NAME`                | Name of the VM in VirtualBox               | `DEVDOCKER-01-ENV01` |
 | `VAGRANT_CLUSTER_NAME`   | Group name for the VM in VirtualBox         | `Development Container Engine Docker REST API 01` |
 
 ---

@@ -126,3 +126,16 @@ Provisioning runs automatically when the VM is created with `vagrant up`. To man
 ```bash
 vagrant provision
 ```
+
+#### Additional Notes
+
+- **To stop the VM**:  
+  Use the following command to gracefully stop the VM:  
+  ```bash
+  vagrant halt
+  ```
+- **To destroy the VM**:  
+  Use the following command to destroy the VM:  
+  ```bash
+  vagrant destroy
+  ```

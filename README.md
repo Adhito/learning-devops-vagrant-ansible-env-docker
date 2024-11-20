@@ -18,3 +18,11 @@ This repository contains a Vagrant configuration to set up a development environ
   - Cluster Name: `Development Container Engine Docker REST API 01`
 
 ---
+
+### Infrastructure Prerequisites
+
+1. **Vagrant**: [Install Vagrant](https://www.vagrantup.com/downloads)
+2. **VirtualBox**: [Install VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+3. **Ansible**: Required on the guest VM for provisioning.
+
+---

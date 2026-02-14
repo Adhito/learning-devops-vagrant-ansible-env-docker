@@ -53,6 +53,54 @@
       #     source: pull
 
 
+- name: Stage - Create Administrator User with Password Authentication
+  hosts: all
+  become: true
+  tasks:
+    - name: Install passlib for password hashing
+      pip:
+        name: passlib
+        state: present
+
+    - name: Create administrator-01 user with password
+      ansible.builtin.user:
+        name: administrator-01
+        password: "{{ 'S4a*K!uLt&&Wof' | password_hash('sha512') }}"
+        shell: /bin/bash
+        groups: sudo,docker
+        append: yes
+        create_home: yes
+        state: present
+
+    - name: Remove cloud-init SSH config that disables password auth
+      ansible.builtin.file:
+        path: /etc/ssh/sshd_config.d/60-cloudimg-settings.conf
+        state: absent
+      notify: restart sshd
+
+    - name: Enable password authentication in SSH
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: 'PasswordAuthentication yes'
+        state: present
+      notify: restart sshd
+
+    - name: Ensure PubkeyAuthentication is enabled (keep key-based auth)
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PubkeyAuthentication'
+        line: 'PubkeyAuthentication yes'
+        state: present
+      notify: restart sshd
+
+  handlers:
+    - name: restart sshd
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+
+
 - name: Stage - Enable Vagrant User To Docker group
   hosts: all
   tasks:

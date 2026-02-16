@@ -18,7 +18,9 @@ This repository contains a Vagrant configuration to set up a development environ
 - [Quick Start](#quick-start)
 - [Getting Started](#getting-started)
 - [Ansible Playbook Details](#ansible-playbook-details)
+- [Security Notes](#security-notes)
 - [Networking](#networking)
+- [Running Docker Compose Applications](#running-docker-compose-applications)
 - [Troubleshooting](#troubleshooting)
 - [Additional Notes](#additional-notes)
 - [Contributing](#contributing)
@@ -83,8 +85,30 @@ This repository contains a Vagrant configuration to set up a development environ
 ├── ansible-playbook.yml     # Ansible playbook for Docker setup
 ├── ansible-requirements.yml # Ansible Galaxy dependencies
 ├── README.md                # Project documentation
+├── CLAUDE.md                # Claude Code instructions
 ├── LICENSE                  # GPLv3 license
-└── .gitignore               # Git ignore rules
+├── .gitignore               # Git ignore rules
+├── src-application-01/      # Sample app: Traefik + Go backend
+│   ├── docker-compose.yaml
+│   ├── backend/
+│   │   ├── Dockerfile
+│   │   └── main.go
+│   └── README.md
+└── src-application-02/      # Sample app: React + Node.js + MongoDB
+    ├── docker-compose.yaml
+    ├── frontend/
+    │   ├── Dockerfile
+    │   ├── package.json
+    │   └── src/
+    ├── backend/
+    │   ├── Dockerfile
+    │   ├── package.json
+    │   ├── server.js
+    │   ├── config/
+    │   ├── db/
+    │   ├── models/
+    │   └── routes/
+    └── README.md
 ```
 
 ---
@@ -358,6 +382,267 @@ The VM is accessible via the following ports:
 | HTTPS              | 443        | 443       | 192.168.1.10    |
 | Custom Service 1   | 8080       | 8080      | 192.168.1.10    |
 | Custom Service 2   | 10001      | 10001     | 192.168.1.10    |
+
+---
+
+## Running Docker Compose Applications
+
+This repository includes two sample Docker Compose applications to help you learn container orchestration and multi-service deployments.
+
+### Application Overview
+
+#### Application 1: Traefik + Go Backend
+- **Location**: `src-application-01/`
+- **Stack**: Traefik 3.1 reverse proxy + Go HTTP server
+- **Ports**: 80 (HTTP), 8080 (Traefik Dashboard)
+- **Purpose**: Learn reverse proxy configuration and path-based routing
+
+#### Application 2: React + Node.js + MongoDB
+- **Location**: `src-application-02/`
+- **Stack**: React frontend + Express backend + MongoDB database
+- **Port**: 3000 (Frontend)
+- **Purpose**: Learn full-stack application deployment with database persistence
+
+---
+
+### Running Application 1: Traefik + Go Backend
+
+**Step 1: SSH into the VM**
+```bash
+vagrant ssh devdocker-01
+```
+
+**Step 2: Navigate to the application directory**
+```bash
+cd /vagrant/src-application-01
+```
+
+**Step 3: Start the application**
+```bash
+docker compose up -d
+```
+
+This will pull the Traefik 3.1 image, build the Go backend, and start both containers.
+
+**Step 4: Verify containers are running**
+```bash
+docker compose ps
+```
+
+Expected output:
+```
+NAME                          IMAGE                          SERVICE     STATUS
+src-application-01-backend-1  src-application-01-backend     backend     running
+src-application-01-frontend-1 traefik:3.1                    frontend    running
+```
+
+**Step 5: Test the application**
+
+From inside the VM:
+```bash
+curl http://localhost/v1/hello-world
+```
+
+Expected output:
+```
+          ##         .
+    ## ## ##        ==
+ ## ## ## ## ##    ===
+/"""""""""""""""""\___/ ===
+{                       /  ===-
+\______ O           __/
+ \    \         __/
+  \____\_______/
+
+
+Hello world from Go in Docker!
+```
+
+**Step 6: Access Traefik Dashboard**
+
+From your **host machine** browser:
+```
+http://192.168.1.10:8080
+```
+
+**Step 7: Stop the application**
+```bash
+docker compose down
+```
+
+---
+
+### Running Application 2: React + Node.js + MongoDB
+
+**Step 1: SSH into the VM**
+```bash
+vagrant ssh devdocker-01
+```
+
+**Step 2: Navigate to the application directory**
+```bash
+cd /vagrant/src-application-02
+```
+
+**Step 3: Start the application**
+```bash
+docker compose up -d
+```
+
+This builds the React and Node.js images, pulls MongoDB 4.2.0, and starts all three containers.
+
+**Step 4: Monitor startup (recommended for first run)**
+```bash
+docker compose logs -f
+```
+
+Wait for these messages:
+- Backend: `MongoDB connected successfully`
+- Frontend: `webpack compiled successfully` or `Compiled successfully!`
+- Mongo: `waiting for connections on port 27017`
+
+Press `Ctrl+C` to exit logs (containers keep running).
+
+**Step 5: Verify containers are running**
+```bash
+docker compose ps
+```
+
+Expected output:
+```
+NAME                          IMAGE                          SERVICE     STATUS
+src-application-02-backend-1  src-application-02-backend     backend     running
+src-application-02-frontend-1 src-application-02-frontend    frontend    running
+src-application-02-mongo-1    mongo:4.2.0                    mongo       running
+```
+
+**Step 6: Access the Todo application**
+
+From your **host machine** browser:
+```
+http://192.168.1.10:3000
+```
+
+**Step 7: Test the application**
+- Add a new todo item using the form
+- The item should appear in the list below
+
+**Step 8: Inspect the database (optional)**
+
+From inside the VM:
+```bash
+docker exec -it src-application-02-mongo-1 mongosh TodoApp --eval "db.todos.find().pretty()"
+```
+
+**Step 9: Stop the application**
+```bash
+docker compose down
+```
+
+To also remove volumes (delete database data):
+```bash
+docker compose down -v
+```
+
+---
+
+### Application Access Summary
+
+| Application | Guest Port | Host Access | Purpose |
+|-------------|------------|-------------|---------|
+| Traefik HTTP | 80 | http://192.168.1.10:80 | Go backend endpoint (`/v1/hello-world`) |
+| Traefik Dashboard | 8080 | http://192.168.1.10:8080 | Traefik admin UI |
+| React Frontend | 3000 | http://192.168.1.10:3000 | Todo application |
+
+---
+
+### Common Docker Compose Commands
+
+```bash
+# Start services in detached mode
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# View logs for specific service
+docker compose logs -f backend
+
+# Check service status
+docker compose ps
+
+# Stop services (keeps containers)
+docker compose stop
+
+# Stop and remove containers
+docker compose down
+
+# Stop, remove containers, and delete volumes
+docker compose down -v
+
+# Rebuild images
+docker compose build --no-cache
+
+# Restart specific service
+docker compose restart backend
+```
+
+---
+
+### Troubleshooting Docker Applications
+
+#### Port Conflicts
+```bash
+# Check what's using a port inside VM
+sudo netstat -tulpn | grep :<port>
+
+# Check running containers
+docker ps
+```
+
+#### Build Failures
+```bash
+# Rebuild with no cache
+docker compose build --no-cache
+docker compose up -d
+```
+
+#### Application Not Accessible from Host
+```bash
+# Inside VM, verify services are listening
+sudo netstat -tulpn | grep -E ':(80|3000|8080)'
+
+# From host, test connectivity
+curl http://192.168.1.10:80
+curl http://192.168.1.10:3000
+```
+
+#### MongoDB Connection Issues (Application 2)
+```bash
+# Check MongoDB logs
+docker compose logs mongo
+
+# Restart backend if it started before MongoDB was ready
+docker compose restart backend
+```
+
+#### Complete Cleanup
+```bash
+# Stop all running containers
+docker stop $(docker ps -aq)
+
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+# Remove all volumes
+docker volume prune -f
+
+# Remove all networks
+docker network prune -f
+```
 
 ---
 
